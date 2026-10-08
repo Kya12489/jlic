@@ -35,12 +35,13 @@ class TaskFile:
 
    
 
-    def addTaskInTable(self, num, description="", duree=0, predecesseur=[]):
+    def addTaskInTable(self, num, description="", duree=0, predecesseur=""):
         self._taskTable[0].append(num)
         self._taskTable[1].append(description)
         self._taskTable[2].append(duree)
         if predecesseur == "/" :
-            predecesseur = []
+            predecesseur = ""
+
 
         self._taskTable[3].append(predecesseur)
 

@@ -19,7 +19,23 @@ class TaskFile:
             [],  # prédécesseurs
         ]
 
+        if not self.FormatVerif():
+            raise ValueError("Fichier incompatible.")
+
         self._GenerateTable()
+
+    def FormatVerif(self):
+        for numero, line in enumerate(self.GetContent().splitlines(), 1):
+            if not line.strip():
+                continue
+
+            columns = line.split(self._firstDelimiteur)
+
+            if len(columns) != 4:
+                print(f"Erreur ligne {numero} : "f"{len(columns)} colonnes au lieu de 4.")
+                return False
+
+        return True
 
     def _GenerateTable(self):
         for line in self.GetContent().splitlines():

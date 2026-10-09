@@ -4,11 +4,13 @@ import re
 class TaskFile:
     def __init__(self, path):
         self._filePath = path
-        with open(self._filePath, encoding="utf-8") as f:
-            self._content = f.read()
+        fileOpened = open(self._filePath, encoding="utf-8")
+        self._content = fileOpened.read()
+        fileOpened.close()
 
         self._firstDelimiteur = ";"   # délimiteur principal (ex : 1;murs;3;2,4)
         self._secondDelimiteur = ","  # délimiteur secondaire (ex : 3,4)
+        
         
         self._taskTable = [
             [],  # numéro de la tâche
@@ -17,16 +19,16 @@ class TaskFile:
             [],  # prédécesseurs
         ]
 
-        self._generateTable()
+        self._GenerateTable()
 
-    def _generateTable(self):
-        for line in self.getContent().splitlines():
+    def _GenerateTable(self):
+        for line in self.GetContent().splitlines():
             if not line.strip():
                 continue
 
             columns = line.split(self._firstDelimiteur)
             
-            self.addTaskInTable(
+            self.AddTaskInTable(
                 num=int(columns[0]),
                 description=columns[1],
                 duree=int(columns[2]),
@@ -34,8 +36,10 @@ class TaskFile:
             )
 
    
+    def isMatriceFile() : 
+        pass
 
-    def addTaskInTable(self, num, description="", duree=0, predecesseur=""):
+    def AddTaskInTable(self, num, description="", duree=0, predecesseur=""):
         self._taskTable[0].append(num)
         self._taskTable[1].append(description)
         self._taskTable[2].append(duree)
@@ -46,16 +50,16 @@ class TaskFile:
         self._taskTable[3].append(predecesseur)
 
     # retourne le contenu du fichier
-    def getContent(self):
+    def GetContent(self):
         return self._content
 
     # donne la table des tâches
-    def getTaskTable(self):
+    def GetTaskTable(self):
         return self._taskTable
 
     # retourne uniquement les numéros et les durées
-    def getSommetAndEdge(self):
+    def GetSommetAndEdge(self):
         return [self._taskTable[0], self._taskTable[2]]
 
-    def getNbTask(self):
-        return len(self.getTaskTable()[0])
+    def GetNbTask(self):
+        return len(self.GetTaskTable()[0])

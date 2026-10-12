@@ -76,11 +76,16 @@ class TaskFile:
         self._taskTable[0].append(num)
         self._taskTable[1].append(description)
         self._taskTable[2].append(duree)
+        
         if predecesseur == "/" :
             predecesseur = ""
 
+        predecesseurs = []
+        for i in predecesseur.split(self._secondDelimiteur):
+            if i.strip() != "":
+                predecesseurs.append(int(i))
 
-        self._taskTable[3].append(predecesseur)
+        self._taskTable[3].append(predecesseurs)
 
     # retourne le contenu du fichier
     def GetContent(self):

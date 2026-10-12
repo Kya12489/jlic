@@ -1,6 +1,5 @@
 import re
 
-
 class TaskFile:
     def __init__(self, path):
         self._filePath = path
@@ -24,15 +23,33 @@ class TaskFile:
 
         self._GenerateTable()
 
+
     def FormatVerif(self):
         for numero, line in enumerate(self.GetContent().splitlines(), 1):
-            if not line.strip():
+            if not line.strip(): #doc pour le 'if not' "https://www.delftstack.com/fr/howto/python/if-not-python/"
                 continue
 
             columns = line.split(self._firstDelimiteur)
 
             if len(columns) != 4:
-                print(f"Erreur ligne {numero} : "f"{len(columns)} colonnes au lieu de 4.")
+                print(f"Erreur ligne {numero} : {len(columns)} colonnes au lieu de 4.")
+                return False
+
+            if not columns[0].strip().isdigit():
+                print(f"Erreur ligne {numero} : numéro de tâche invalide : {repr(columns[0])}")
+                return False
+
+            if columns[3].strip() != "/" and not re.fullmatch(r"\d+(?:,\d+)*", columns[3].strip()):
+                print(f"Erreur ligne {numero} : tâches précédentes invalides : {repr(columns[3])}")
+                return False
+
+            if not re.fullmatch(r"[a-zA-ZÀ-ÿ ]+", columns[1].strip()):
+                print(f"Erreur ligne {numero} : description invalide.")
+                return False
+
+            if not re.fullmatch(r"\d+(?:[.,]\d+)?", columns[2].strip()):
+                print(f"Erreur ligne {numero} : durée invalide.")
+                
                 return False
 
         return True

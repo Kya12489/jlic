@@ -58,3 +58,16 @@ def LongestBellman(nums,durees,predecesseurs) :
     if k!= n :
         return []
     return si
+
+#calcul date au plus tard
+#ti = plus tard
+#j = predecesseur
+def LatestStart(nums, durees, predecesseurs, si) :
+    n = len(nums)
+    ti = [si[n-1]] * n                      
+ 
+    for i in range(n-2, -1, -1) :           
+        for j in range(n) :
+            if nums[i] in predecesseurs[j] :               
+                ti[i] = min(ti[i], ti[j] - durees[i])       #On calcule a quelle date i doit commencer au plus tard pour être finie quand j commence
+    return ti

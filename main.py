@@ -1,4 +1,3 @@
-#!bin/python
 from classes.taskFile import TaskFile
 from library import ToolKit
 
@@ -20,6 +19,15 @@ try:
     print("si plus court : ", ToolKit.ShortestBellman(testFile.GetTaskTable()[0] , testFile.GetTaskTable()[2], testFile.GetTaskTable()[3]))
     print("si plus long : ", ToolKit.LongestBellman(testFile.GetTaskTable()[0] , testFile.GetTaskTable()[2], testFile.GetTaskTable()[3]))
 
+    nums, desc, durees, preds = testFile.GetTaskTable()
+    tot = ToolKit.LongestBellman(nums, durees, preds)
+    tard = ToolKit.LatestStart(nums, durees, preds, tot)
+    
+    print("____________________________________________________________________________")
+
+    print("date au plus tard :")
+    for i in range(len(nums)):
+        print(f"{desc[i]} : {tard[i]}")
 
 except ValueError as e:
     print(e)

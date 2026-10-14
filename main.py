@@ -32,3 +32,14 @@ def sendFileInfo(filename: str):
         "siTard": siTard
     }
     return {"message":"success", "content": info}
+
+@app.get("/remove/{filename}") 
+def removeFile(filename : str) :
+    taskFile = actifFile.get(filename)
+    
+    if taskFile is None:
+        raise HTTPException(status_code=404, detail="Fichier inconnu")
+
+    actifFile[filename] = None 
+
+    return {"message":"success"}

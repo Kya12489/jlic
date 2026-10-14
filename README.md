@@ -16,7 +16,7 @@ Format dans la classe TaskFile :
 exemple dans un for (a tester dans le fichier main.py) : 
 
 
-#mis à jour le 12/10/2026
+#mis à jour le 14/10/2026
 
 from classes.taskFile import TaskFile
 from library import ToolKit
@@ -28,17 +28,20 @@ try:
         description="FIN",
         predecesseur=str(testFile.GetTaskTable()[0][-1])
     )
-
+    nums, desc, durees, preds = testFile.GetTaskTable()
+    siTot = ToolKit.LongestBellman(nums, durees, preds)
+    siTard = ToolKit.LatestStart(nums,durees,preds,siTot)
     for i in range(testFile.GetNbTask()):
-        print(f"num = {testFile.GetTaskTable()[0][i]}")
-        print(f"description = {testFile.GetTaskTable()[1][i]}")
-        print(f"durée = {testFile.GetTaskTable()[2][i]}")
-        print(f"prédécesseur = {testFile.GetTaskTable()[3][i]}")
+        
+        print(f"num = {nums[i]}")
+        print(f"description = {desc[i]}")
+        print(f"durée = {durees[i]}")
+        print(f"prédécesseur = {preds[i]}")
+
+        print("date au plus tot = ", siTot[i])
+        print("date au plus tard =", siTard[i])
+        print("retard autoriser = ", siTard[i] - siTot[i])
         print("____________________________________________________________________________")
-
-    print("si plus court : ", ToolKit.ShortestBellman(testFile.GetTaskTable()[0] , testFile.GetTaskTable()[2], testFile.GetTaskTable()[3]))
-    print("si plus long : ", ToolKit.LongestBellman(testFile.GetTaskTable()[0] , testFile.GetTaskTable()[2], testFile.GetTaskTable()[3]))
-
 
 except ValueError as e:
     print(e)

@@ -8,26 +8,20 @@ try:
         description="FIN",
         predecesseur=str(testFile.GetTaskTable()[0][-1])
     )
-
-    for i in range(testFile.GetNbTask()):
-        print(f"num = {testFile.GetTaskTable()[0][i]}")
-        print(f"description = {testFile.GetTaskTable()[1][i]}")
-        print(f"durée = {testFile.GetTaskTable()[2][i]}")
-        print(f"prédécesseur = {testFile.GetTaskTable()[3][i]}")
-        print("____________________________________________________________________________")
-
-    print("si plus court : ", ToolKit.ShortestBellman(testFile.GetTaskTable()[0] , testFile.GetTaskTable()[2], testFile.GetTaskTable()[3]))
-    print("si plus long : ", ToolKit.LongestBellman(testFile.GetTaskTable()[0] , testFile.GetTaskTable()[2], testFile.GetTaskTable()[3]))
-
     nums, desc, durees, preds = testFile.GetTaskTable()
-    tot = ToolKit.LongestBellman(nums, durees, preds)
-    tard = ToolKit.LatestStart(nums, durees, preds, tot)
-    
-    print("____________________________________________________________________________")
+    siTot = ToolKit.LongestBellman(nums, durees, preds)
+    siTard = ToolKit.LatestStart(nums,durees,preds,siTot)
+    for i in range(testFile.GetNbTask()):
+        
+        print(f"num = {nums[i]}")
+        print(f"description = {desc[i]}")
+        print(f"durée = {durees[i]}")
+        print(f"prédécesseur = {preds[i]}")
 
-    print("date au plus tard :")
-    for i in range(len(nums)):
-        print(f"{desc[i]} : {tard[i]}")
+        print("date au plus tot = ", siTot[i])
+        print("date au plus tard =", siTard[i])
+        print("retard autoriser = ", siTard[i] - siTot[i])
+        print("____________________________________________________________________________")
 
 except ValueError as e:
     print(e)

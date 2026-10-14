@@ -1,2 +1,18 @@
-__pycach__
-*cpython*
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+
+# Éditeurs / OS
+.vscode/
+.idea/
+.DS_Store

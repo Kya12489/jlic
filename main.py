@@ -1,27 +1,34 @@
 from classes.taskFile import TaskFile
 from library import ToolKit
+from fastapi import FastAPI, UploadFile, HTTPException
 
-try:
-    testFile = TaskFile("./formatTache.txt")
-    testFile.AddTaskInTable(
-        num=testFile.GetNbTask()+1,
-        description="FIN",
-        predecesseur=str(testFile.GetTaskTable()[0][-1])
-    )
-    nums, desc, durees, preds = testFile.GetTaskTable()
-    siTot = ToolKit.LongestBellman(nums, durees, preds)
-    siTard = ToolKit.LatestStart(nums,durees,preds,siTot)
-    for i in range(testFile.GetNbTask()):
-        
-        print(f"num = {nums[i]}")
-        print(f"description = {desc[i]}")
-        print(f"durée = {durees[i]}")
-        print(f"prédécesseur = {preds[i]}")
+app = FastAPI()
 
-        print("date au plus tot = ", siTot[i])
-        print("date au plus tard =", siTard[i])
-        print("retard autoriser = ", siTard[i] - siTot[i])
-        print("____________________________________________________________________________")
+actifFile = {}   # un dict, pas une liste : on indexe par nom de fichier
 
-except ValueError as e:
-    print(e)
+@app.post("/send")
+async def send(file: UploadFile):
+    contenu = await file.read()
+    texte = contenu.decode("utf-8-sig")      # bytes → str
+    actifFile[file.filename] = TaskFile(texte)
+    return {"message": "fichier reçu", "nom": file.filename}
+
+@app.get("/fileinfo/{filename}")
+def sendFileInfo(filename: str):
+    taskFile = actifFile.get(filename)
+
+    if taskFile is None:
+        raise HTTPException(status_code=404, detail="Fichier inconnu")
+
+    nums, descriptions, durees, predecesseurs = taskFile.GetTaskTable()
+    siTot = ToolKit.LongestBellman(nums,durees,predecesseurs)
+    siTard = ToolKit.LatestStart(nums,durees,predecesseurs,siTot)
+    info= {
+        "nums": nums,
+        "descriptions": descriptions,
+        "durees": durees,
+        "predecesseurs": predecesseurs,
+        "siTot": siTot,
+        "siTard": siTard
+    }
+    return {"message":"success", "content": info}

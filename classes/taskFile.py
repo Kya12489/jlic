@@ -4,9 +4,17 @@ class TaskFile:
     def __init__(self, path):
         self._filePath = path
         fileOpened = open(self._filePath, encoding="utf-8")
-        self._content = fileOpened.read()
+        content = fileOpened.read()
         fileOpened.close()
 
+        self._initializing(content)
+
+    def __init__(self, content):
+        self._initializing(content)
+        
+
+    def _initializing(self, content) : 
+        self._content = content
         self._firstDelimiteur = ";"   # délimiteur principal (ex : 1;murs;3;2,4)
         self._secondDelimiteur = ","  # délimiteur secondaire (ex : 3,4)
         
@@ -17,12 +25,11 @@ class TaskFile:
             [],  # durée de la tâche
             [],  # prédécesseurs
         ]
-
+        
         if not self.FormatVerif():
             raise ValueError("Fichier incompatible.")
-
+            
         self._GenerateTable()
-
 
     def FormatVerif(self):
         for numero, line in enumerate(self.GetContent().splitlines(), 1):

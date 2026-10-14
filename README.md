@@ -1,5 +1,16 @@
 # jlic
 
+il est necessaire d'installer les package suivant : 
+pip install fastapi[standard]
+
+ou d'installer les requirement : 
+pip install -r requirements.txt
+
+Pour lancer l'api il faut rentrer les commande suivant : 
+python3 -m venv .venv
+source test-env/bin/activate
+fastapi dev main.py
+
 Format des fichier txt : 
 pour le format des taches : 
 

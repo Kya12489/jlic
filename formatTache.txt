@@ -5,6 +5,6 @@
 5;Electricité;2;3,4
 6;Fenêtres;1;3,4
 7;Jardin;1;3,4
-8;Peintures;3;6
+8;Peintures;R;6
 9;Cuisine;2;8
 10;Installation;1;5,7,9

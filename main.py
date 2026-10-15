@@ -10,7 +10,11 @@ actifFile = {}   # un dict, pas une liste : on indexe par nom de fichier
 async def send(file: UploadFile):
     contenu = await file.read()
     texte = contenu.decode("utf-8-sig")      # bytes → str
-    actifFile[file.filename] = TaskFile(texte)
+    try : 
+        actifFile[file.filename] = TaskFile(texte)
+    except :
+        raise HTTPException(status_code=404, detail="Le fichier n'est pas dans le bon format")
+
     return {"message": "fichier reçu", "nom": file.filename}
 
 @app.get("/fileinfo/{filename}")

@@ -17,6 +17,10 @@ async def sendFileInfo(file: UploadFile):
 
     nums, descriptions, durees, predecesseurs = taskFile.GetTaskTable()
     siTot = ToolKit.LongestBellman(nums,durees,predecesseurs)
+
+    if siTot == [] : 
+        raise HTTPException(status_code=405, detail="Le projet n'est pas eligible")
+
     siTard = ToolKit.LatestStart(nums,durees,predecesseurs,siTot)
     info= {
         "nums": nums,

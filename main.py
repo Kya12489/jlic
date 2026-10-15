@@ -13,8 +13,7 @@ async def sendFileInfo(file: UploadFile):
         taskFile = TaskFile(texte)
     except :
         raise HTTPException(status_code=404, detail="Le fichier n'est pas dans le bon format")
-    if taskFile is None:
-        raise HTTPException(status_code=404, detail="Fichier inconnu")
+    
 
     nums, descriptions, durees, predecesseurs = taskFile.GetTaskTable()
     siTot = ToolKit.LongestBellman(nums,durees,predecesseurs)

@@ -1,47 +1,16 @@
-# jlic
+# React + Vite
 
-Format des fichier txt : 
-pour le format des taches : 
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-numTache;Description;Durée;Predecesseur1,PredecesseurN
+Currently, two official plugins are available:
 
-Format dans la classe TaskFile : 
-[
-    [], num 
-    [], description
-    [], durée
-    [], predecesseur
-]
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-exemple dans un for (a tester dans le fichier main.py) : 
+## React Compiler
 
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-#mis à jour le 14/10/2026
+## Expanding the Oxlint configuration
 
-from classes.taskFile import TaskFile
-from library import ToolKit
-
-try:
-    testFile = TaskFile("./formatTache.txt")
-    testFile.AddTaskInTable(
-        num=testFile.GetNbTask()+1,
-        description="FIN",
-        predecesseur=str(testFile.GetTaskTable()[0][-1])
-    )
-    nums, desc, durees, preds = testFile.GetTaskTable()
-    siTot = ToolKit.LongestBellman(nums, durees, preds)
-    siTard = ToolKit.LatestStart(nums,durees,preds,siTot)
-    for i in range(testFile.GetNbTask()):
-        
-        print(f"num = {nums[i]}")
-        print(f"description = {desc[i]}")
-        print(f"durée = {durees[i]}")
-        print(f"prédécesseur = {preds[i]}")
-
-        print("date au plus tot = ", siTot[i])
-        print("date au plus tard =", siTard[i])
-        print("retard autoriser = ", siTard[i] - siTot[i])
-        print("____________________________________________________________________________")
-
-except ValueError as e:
-    print(e)
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.

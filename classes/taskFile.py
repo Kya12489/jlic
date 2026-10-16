@@ -116,5 +116,6 @@ class TaskFile:
 
             for p in predecesseurs[i] :
                 arcs.append([nums[i],p,poids[p-1]])
-
+        if addEndTask :
+            arcs.append([self.GetTaskTable()[0][-1]+1,self.GetTaskTable()[0][-1],self.GetTaskTable()[2][-1]])
         return arcs

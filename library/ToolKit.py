@@ -2,31 +2,36 @@
 #duree : array
 #predecesseurs : array
 #retourne [] si invalide, [si1,si2,si3,siN] si valide
-def ShortestBellman(nums,durees,predecesseurs) :
-    si = []
-    n = len(nums)
+def ShortestBellman(arcs,siSource=0,source=1) :
+    si = {}
+    
+    sommet = set()
+    for destinataire, origine, _ in arcs:
+        sommet.add(destinataire)
+        sommet.add(origine)
+    sommet = sorted(sommet)
+
+    n = len(sommet)
     k=0
 
-    for i in range (0,n) :
-        si.append(float("inf"))
+    for i in sommet :
+        si[i] = float("-inf")
 
-    si[0] = 0
+    si[source] = siSource
 
-    for j in range(0,n) :
-        k+=1
+    for passe in range(0,n) : 
         changed = False
-
-        if predecesseurs[j] == []:
-            continue
-        
-        for predecesseur in predecesseurs[j] :
-            if si[j] > si[predecesseur-1] + durees[predecesseur-1] :
-                si[j] = si[predecesseur-1] + durees[predecesseur-1] 
+        k+=1
+        for j,i,poids in arcs :
+            if si[j]<=si[i]+poids :
+                si[j]=si[i]+poids
                 changed = True
         if not changed :
-            return[]
-    if k!= n :
+            return []
+
+    if k!=n : 
         return []
+
     return si
 
 #sommet : array
@@ -49,7 +54,7 @@ def LongestBellman(arcs,siSource=0,source=1) :
 
     si[source] = siSource
 
-    for passe in range(0,n) : 
+    for _ in range(0,n) : 
         changed = False
         k+=1
         for j,i,poids in arcs :

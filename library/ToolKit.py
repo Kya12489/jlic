@@ -41,7 +41,7 @@ def LongestBellman(arcs,siSource=0,source=1) :
         sommet.add(origine)
     sommet = sorted(sommet)
 
-    n = len(arcs)
+    n = len(sommet)
     k=0
 
     for i in sommet :
@@ -51,9 +51,16 @@ def LongestBellman(arcs,siSource=0,source=1) :
 
     for passe in range(0,n) : 
         changed = False
+        k+=1
         for j,i,poids in arcs :
             if si[j]<=si[i]+poids :
                 si[j]=si[i]+poids
+                changed = True
+        if not changed :
+            return []
+
+    if k!=n : 
+        return []
 
     return si
 

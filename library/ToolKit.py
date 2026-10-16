@@ -15,7 +15,7 @@ def ShortestBellman(arcs,siSource=0,source=1) :
     k=0
 
     for i in sommet :
-        si[i] = float("-inf")
+        si[i] = float("inf")
 
     si[source] = siSource
 
@@ -23,7 +23,7 @@ def ShortestBellman(arcs,siSource=0,source=1) :
         changed = False
         k+=1
         for j,i,poids in arcs :
-            if si[j]<=si[i]+poids :
+            if si[j]>=si[i]+poids :
                 si[j]=si[i]+poids
                 changed = True
         if not changed :

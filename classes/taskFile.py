@@ -36,26 +36,32 @@ class TaskFile:
 
             columns = line.split(self._firstDelimiteur)
 
-            if len(columns) != 4:
-                print(f"Erreur ligne {numero} : {len(columns)} colonnes au lieu de 4.")
-                return False
-
-            if not columns[0].strip().isdigit():
-                print(f"Erreur ligne {numero} : numéro de tâche invalide : {repr(columns[0])}")
-                return False
-
-            if columns[3].strip() != "/" and not re.fullmatch(r"\d+(?:,\d+)*", columns[3].strip()):
-                print(f"Erreur ligne {numero} : tâches précédentes invalides : {repr(columns[3])}")
-                return False
-
-            if not re.fullmatch(r"[a-zA-ZÀ-ÿ ]+", columns[1].strip()):
-                print(f"Erreur ligne {numero} : description invalide.")
-                return False
-
-            if not re.fullmatch(r"\d+(?:[.,]\d+)?", columns[2].strip()):
-                print(f"Erreur ligne {numero} : durée invalide.")
-                
-                return False
+            if columns[0].strip() != "c" :
+                if len(columns) != 4:
+                    print(f"Erreur ligne {numero} : {len(columns)} colonnes au lieu de 4.")
+                    return False
+    
+                if not columns[0].strip().isdigit() :
+                    print(f"Erreur ligne {numero} : numéro de tâche invalide : {repr(columns[0])}")
+                    return False
+    
+                if columns[3].strip() != "/" and not re.fullmatch(r"\d+(?:,\d+)*", columns[3].strip()):
+                    print(f"Erreur ligne {numero} : tâches précédentes invalides : {repr(columns[3])}")
+                    return False
+    
+                if not re.fullmatch(r"[a-zA-ZÀ-ÿ ]+", columns[1].strip()):
+                    print(f"Erreur ligne {numero} : description invalide.")
+                    return False
+    
+                if not re.fullmatch(r"\d+(?:[.,]\d+)?", columns[2].strip()):
+                    print(f"Erreur ligne {numero} : durée invalide.")
+                    
+                    return False
+            else :
+                print(columns[0].strip().isdigit(),columns[1].strip().isdigit(),columns[2].strip().isdigit(),columns[3].strip().lstrip("-").isdigit())
+                if not(columns[1].strip().isdigit() & columns[2].strip().isdigit() & columns[3].strip().lstrip("-").isdigit()) :
+                    print(f"constrainte invalide")
+                    return False
 
         return True
 
@@ -65,7 +71,10 @@ class TaskFile:
                 continue
 
             columns = line.split(self._firstDelimiteur)
-            
+
+            if columns[0] == "c" : 
+                continue
+
             self.AddTaskInTable(
                 num=int(columns[0]),
                 description=columns[1],
@@ -81,7 +90,22 @@ class TaskFile:
                         predecesseur=str(self.GetTaskTable()[0][-1])
                     )
 
-   
+    def _GenerateConstraint(self) :
+       for line in self.GetContent().splitlines():
+            if not line.strip():
+                continue
+
+            columns = line.split(self._firstDelimiteur)
+
+            if columns[0] != "c" : 
+                continue
+
+            self.AddTaskInTable(
+                num=int(columns[0]),
+                description="",
+                duree=int(columns[2]),
+                predecesseur=columns[3],
+            )
     def isMatriceFile() : 
         pass
 

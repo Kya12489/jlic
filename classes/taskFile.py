@@ -130,6 +130,8 @@ class TaskFile:
     def GetContent(self):
         return self._content
 
+    def GetConstraint(self):
+        return self._contrainte
     # donne la table des tâches
     def GetTaskTable(self):
         return self._taskTable

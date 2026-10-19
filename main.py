@@ -29,8 +29,10 @@ async def sendFileInfo(file: UploadFile,addEndedTask:bool=Form(False)):
         "descriptions": descriptions,
         "durees": durees,
         "predecesseurs": predecesseurs,
+        "contraintes": taskFile.GetConstraint(),
+        "arcs": taskFile.GetArcs(),
         "siTot": siTot,
-        "siTard": siTard
+        "siTard": siTard,
     }
     return {"message":"success", "content": info}
 

@@ -75,10 +75,10 @@ class TaskFile:
 
         if addEndedTask :
                     self.AddTaskInTable(
-                        num=self.GetTaskTable[0][-1]+1,
+                        num=self.GetTaskTable()[0][-1]+1,
                         description="FIN",
                         duree=0,
-                        predecesseur=str(self.GetTaskTable[0][-1])
+                        predecesseur=str(self.GetTaskTable()[0][-1])
                     )
 
    

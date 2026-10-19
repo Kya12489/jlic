@@ -8,7 +8,7 @@ class TaskFile:
         if content is None:
             raise ValueError("Il faut un contenu ou un chemin.")
         
-        self._initializing(content)
+        self._initializing(content,addEndedTask)
         
 
     def _initializing(self, content,addEndedTask=False) : 

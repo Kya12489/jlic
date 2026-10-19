@@ -8,3 +8,4 @@
 8;Peintures;3;6
 9;Cuisine;2;8
 10;Installation;1;5,7,9
+c;3;6;-3

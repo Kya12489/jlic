@@ -5,17 +5,17 @@ from fastapi import FastAPI, UploadFile, HTTPException
 app = FastAPI()
 
 @app.post("/fileinfo")
-async def sendFileInfo(file: UploadFile):
+async def sendFileInfo(file: UploadFile,addEndedTask:bool=False):
     contenu = await file.read()
     texte = contenu.decode("utf-8-sig") 
     try : 
-        taskFile = TaskFile(texte)
+        taskFile = TaskFile(texte,addEndedTask=addEndedTask)
     except :
         raise HTTPException(status_code=404, detail="Le fichier n'est pas dans le bon format")
     
 
     nums, descriptions, durees, predecesseurs = taskFile.GetTaskTable()
-    siTot = ToolKit.LongestBellman(taskFile.GetArcs(True))
+    siTot = ToolKit.LongestBellman(taskFile.GetArcs())
 
     if siTot == [] : 
         raise HTTPException(status_code=405, detail="Le projet n'est pas eligible")

@@ -1,7 +1,7 @@
 import re
 
 class TaskFile:
-    def __init__(self, content=None, path=None):
+    def __init__(self, content=None, path=None,addEndedTask=False):
         if path is not None:
             with open(path, encoding="utf-8") as f:
                 content = f.read()
@@ -11,7 +11,7 @@ class TaskFile:
         self._initializing(content)
         
 
-    def _initializing(self, content) : 
+    def _initializing(self, content,addEndedTask=False) : 
         self._content = content
         self._firstDelimiteur = ";"   # délimiteur principal (ex : 1;murs;3;2,4)
         self._secondDelimiteur = ","  # délimiteur secondaire (ex : 3,4)
@@ -27,7 +27,7 @@ class TaskFile:
         if not self.FormatVerif():
             raise ValueError("Fichier incompatible.")
             
-        self._GenerateTable()
+        self._GenerateTable(addEndedTask)
 
     def FormatVerif(self):
         for numero, line in enumerate(self.GetContent().splitlines(), 1):
@@ -59,7 +59,7 @@ class TaskFile:
 
         return True
 
-    def _GenerateTable(self):
+    def _GenerateTable(self,addEndedTask=False):
         for line in self.GetContent().splitlines():
             if not line.strip():
                 continue
@@ -72,6 +72,14 @@ class TaskFile:
                 duree=int(columns[2]),
                 predecesseur=columns[3],
             )
+
+        if addEndedTask :
+                    self.AddTaskInTable(
+                        num=self.GetTaskTable[0][-1]+1,
+                        description="FIN",
+                        duree=0,
+                        predecesseur=str(self.GetTaskTable[0][-1])
+                    )
 
    
     def isMatriceFile() : 
@@ -107,7 +115,7 @@ class TaskFile:
     def GetNbTask(self):
         return len(self.GetTaskTable()[0])
 
-    def GetArcs(self,addEndTask=False) :
+    def GetArcs(self) :
 
         arcs = []
         nums,_,poids,predecesseurs = self.GetTaskTable()
@@ -117,12 +125,11 @@ class TaskFile:
 
             for p in predecesseurs[i] :
                 arcs.append([nums[i],p,poids[p-1]])
-        if addEndTask :
-            arcs.append([self.GetTaskTable()[0][-1]+1,self.GetTaskTable()[0][-1],self.GetTaskTable()[2][-1]])
+        
         return arcs
 
     def GetReversedArcs(self) :
-        arcs = self.GetArcs(True)
+        arcs = self.GetArcs()
         reversedArcs = []
         for nums,predecesseur,poids in arcs[::-1] :
             reversedArcs.append([predecesseur,nums,-poids])

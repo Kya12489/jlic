@@ -23,11 +23,14 @@ class TaskFile:
             [],  # durée de la tâche
             [],  # prédécesseurs
         ]
+
+        self._contrainte = []
         
         if not self.FormatVerif():
             raise ValueError("Fichier incompatible.")
             
         self._GenerateTable(addEndedTask)
+        self._GenerateConstraint()
 
     def FormatVerif(self):
         for numero, line in enumerate(self.GetContent().splitlines(), 1):
@@ -100,14 +103,13 @@ class TaskFile:
             if columns[0] != "c" : 
                 continue
 
-            self.AddTaskInTable(
-                num=int(columns[0]),
-                description="",
-                duree=int(columns[2]),
-                predecesseur=columns[3],
-            )
+            self.AddConstraintInTable(int(columns[1]),int(columns[2]),int(columns[3]))
+
     def isMatriceFile() : 
         pass
+
+    def AddConstraintInTable(self,origin,predecesseur,poids) :
+        self._contrainte.append([origin, predecesseur, poids])
 
     def AddTaskInTable(self, num, description="", duree=0, predecesseur=""):
         self._taskTable[0].append(num)
@@ -149,7 +151,9 @@ class TaskFile:
 
             for p in predecesseurs[i] :
                 arcs.append([nums[i],p,poids[p-1]])
-        
+
+        for contrainte in self._contrainte :
+            arcs.append(contrainte)
         return arcs
 
     def GetReversedArcs(self) :

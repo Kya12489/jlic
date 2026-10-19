@@ -108,6 +108,7 @@ class TaskFile:
         return len(self.GetTaskTable()[0])
 
     def GetArcs(self,addEndTask=False) :
+
         arcs = []
         nums,_,poids,predecesseurs = self.GetTaskTable()
         for i in range(0,self.GetNbTask()) :
@@ -119,3 +120,11 @@ class TaskFile:
         if addEndTask :
             arcs.append([self.GetTaskTable()[0][-1]+1,self.GetTaskTable()[0][-1],self.GetTaskTable()[2][-1]])
         return arcs
+
+    def GetReversedArcs(self) :
+        arcs = self.GetArcs(True)
+        reversedArcs = []
+        for nums,predecesseur,poids in arcs[::-1] :
+            reversedArcs.append([predecesseur,nums,-poids])
+
+        return reversedArcs

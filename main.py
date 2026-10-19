@@ -16,12 +16,15 @@ async def sendFileInfo(file: UploadFile):
     
 
     nums, descriptions, durees, predecesseurs = taskFile.GetTaskTable()
-    siTot = ToolKit.LongestBellman(nums,durees,predecesseurs)
+    siTot = ToolKit.LongestBellman(taskFile.GetArcs(True))
 
     if siTot == [] : 
         raise HTTPException(status_code=405, detail="Le projet n'est pas eligible")
 
-    siTard = ToolKit.LatestStart(nums,durees,predecesseurs,siTot)
+    fin = max(siTot)                                  
+    dateFin = siTot[fin]    
+    mins = ToolKit.ShortestBellman(taskFile.GetReversedArcs(), 0, fin)
+    siTard = ToolKit.dateAuPlusTard(mins, dateFin)
     info= {
         "nums": nums,
         "descriptions": descriptions,
@@ -30,5 +33,8 @@ async def sendFileInfo(file: UploadFile):
         "siTot": siTot,
         "siTard": siTard
     }
+    return {"message":"success", "content": info}
+
+
     return {"message":"success", "content": info}
 

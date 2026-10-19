@@ -1,15 +1,13 @@
 import re
 
 class TaskFile:
-    def __init__(self, path):
-        self._filePath = path
-        fileOpened = open(self._filePath, encoding="utf-8")
-        content = fileOpened.read()
-        fileOpened.close()
-
-        self._initializing(content)
-
-    def __init__(self, content):
+    def __init__(self, content=None, path=None):
+        if path is not None:
+            with open(path, encoding="utf-8") as f:
+                content = f.read()
+        if content is None:
+            raise ValueError("Il faut un contenu ou un chemin.")
+        
         self._initializing(content)
         
 
@@ -108,3 +106,25 @@ class TaskFile:
 
     def GetNbTask(self):
         return len(self.GetTaskTable()[0])
+
+    def GetArcs(self,addEndTask=False) :
+
+        arcs = []
+        nums,_,poids,predecesseurs = self.GetTaskTable()
+        for i in range(0,self.GetNbTask()) :
+            if predecesseurs[i] == [] :
+                continue
+
+            for p in predecesseurs[i] :
+                arcs.append([nums[i],p,poids[p-1]])
+        if addEndTask :
+            arcs.append([self.GetTaskTable()[0][-1]+1,self.GetTaskTable()[0][-1],self.GetTaskTable()[2][-1]])
+        return arcs
+
+    def GetReversedArcs(self) :
+        arcs = self.GetArcs(True)
+        reversedArcs = []
+        for nums,predecesseur,poids in arcs[::-1] :
+            reversedArcs.append([predecesseur,nums,-poids])
+
+        return reversedArcs

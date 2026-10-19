@@ -8,7 +8,6 @@ app = FastAPI()
 async def sendFileInfo(file: UploadFile):
     contenu = await file.read()
     texte = contenu.decode("utf-8-sig") 
-    taskFile
     try : 
         taskFile = TaskFile(texte)
     except :
@@ -36,5 +35,4 @@ async def sendFileInfo(file: UploadFile):
     return {"message":"success", "content": info}
 
 
-    return {"message":"success", "content": info}
 

@@ -1,11 +1,11 @@
 from classes.taskFile import TaskFile
 from library import ToolKit
-from fastapi import FastAPI, UploadFile, HTTPException
+from fastapi import FastAPI, UploadFile, HTTPException,Form
 
 app = FastAPI()
 
 @app.post("/fileinfo")
-async def sendFileInfo(file: UploadFile,addEndedTask:bool=False):
+async def sendFileInfo(file: UploadFile,addEndedTask:bool=Form(False)):
     contenu = await file.read()
     texte = contenu.decode("utf-8-sig") 
     try : 

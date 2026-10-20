@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import './App.css'
 import GrapheScreen from './elements/grapheScreen'
@@ -20,15 +21,18 @@ async function GetFileInfo(file, addEndedTask) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.detail
-      ? JSON.stringify(data.detail)
-      : `Erreur HTTP ${response.status}`);
+    throw new Error(
+      data.detail
+        ? JSON.stringify(data.detail)
+        : `Erreur HTTP ${response.status}`
+    );
   }
 
   return data.content;
 }
+
 function App() {
-  const [activeGraphe, addGraphe] = useState([])
+  const [activeGraphe, setGraphe] = useState(null);
 
   async function handleSubmit(file, addEndedTask) {
     if (!file) {
@@ -36,8 +40,13 @@ function App() {
       return;
     }
 
-    const graphe = await GetFileInfo(file, addEndedTask);
-    addGraphe(graphe);
+    try {
+      const graphe = await GetFileInfo(file, addEndedTask);
+      console.log(graphe);
+      setGraphe(graphe);
+    } catch (error) {
+      console.error("Erreur :", error.message);
+    }
   }
 
   return (
@@ -52,14 +61,14 @@ function App() {
       </header>
 
       <div className="flex justify-center items-center h-screen">
-        {activeGraphe.length === 0 ? (
+        {activeGraphe === null ? (
           <FileForm onSubmit={handleSubmit} />
         ) : (
-          <GrapheScreen />
+          <GrapheScreen fileInfo={activeGraphe} />
         )}
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

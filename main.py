@@ -1,8 +1,18 @@
 from classes.taskFile import TaskFile
 from library import ToolKit
 from fastapi import FastAPI, UploadFile, HTTPException,Form
+from fastapi.middleware.cors import CORSMiddleware
+ 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/fileinfo")
 async def sendFileInfo(file: UploadFile,addEndedTask:bool=Form(False)):

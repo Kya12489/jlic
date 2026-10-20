@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^3.1.1",
+    "@tailwindcss/vite": "^4.3.3",
     "@xyflow/react": "^12.12.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-drag-drop-files": "^3.1.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",

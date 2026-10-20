@@ -9,27 +9,24 @@ async function GetFileInfo(file, addEndedTask) {
   }
 
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("addEndedTask", addEndedTask);
+  formData.append("file", file, file.name);
+  formData.append("addEndedTask", String(addEndedTask));
 
-  const response = await fetch(
-    "https://jlic.onrender.com/fileinfo",
-    {
-      headers:{'Content-type': 'application/json; charset=UTF-8'},
-      method: "POST",
-      body: formData
-    }
-  );
+  const response = await fetch("https://jlic.onrender.com/fileinfo", {
+    method: "POST",
+    body: formData,
+  });
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.detail || `Erreur HTTP : ${response.status}`);
+    throw new Error(data.detail
+      ? JSON.stringify(data.detail)
+      : `Erreur HTTP ${response.status}`);
   }
 
   return data.content;
 }
-
 function App() {
   const [activeGraphe, addGraphe] = useState([])
 

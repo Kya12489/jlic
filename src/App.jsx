@@ -32,7 +32,10 @@ async function GetFileInfo(file, addEndedTask) {
 }
 
 function App() {
-  const [activeGraphe, setGraphe] = useState(null);
+  const [activeGraphe, setGraphe] = useState(() => {
+    const savedGraphe = localStorage.getItem("activeGraphe");
+    return savedGraphe ? JSON.parse(savedGraphe) : null;
+  });
 
   async function handleSubmit(file, addEndedTask) {
     if (!file) {
@@ -42,8 +45,10 @@ function App() {
 
     try {
       const graphe = await GetFileInfo(file, addEndedTask);
+
       console.log(graphe);
       setGraphe(graphe);
+      localStorage.setItem("activeGraphe", JSON.stringify(graphe));
     } catch (error) {
       console.error("Erreur :", error.message);
     }

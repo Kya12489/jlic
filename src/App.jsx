@@ -32,11 +32,17 @@ async function GetFileInfo(file, addEndedTask) {
 }
 
 function App() {
-  const [activeGraphe, setGraphe] = useState(() => {
+  const [activeGraphe, setActiveGrapheState] = useState(() => {
     const savedGraphe = localStorage.getItem("activeGraphe");
     return savedGraphe ? JSON.parse(savedGraphe) : null;
   });
 
+  function setGraphe(graphe) {
+    setActiveGrapheState(graphe);
+    localStorage.setItem("activeGraphe", JSON.stringify(graphe));
+  }
+
+    
   async function handleSubmit(file, addEndedTask) {
     if (!file) {
       console.error("Aucun fichier sélectionné");
@@ -48,20 +54,23 @@ function App() {
 
       console.log(graphe);
       setGraphe(graphe);
-      localStorage.setItem("activeGraphe", JSON.stringify(graphe));
     } catch (error) {
       console.error("Erreur :", error.message);
     }
   }
 
+  function closeFile() {
+    setGraphe(null)
+  }
+
   return (
     <>
       <header className="border-b-2 bg-gray-200 border-b-gray-300 flex justify-start gap-0.5">
-        <button className="btn bg-gray-400 hover:bg-gray-500">
+        {/* <button className="btn bg-gray-400 hover:bg-gray-500">
           open file
-        </button>
-        <button className="btn bg-gray-400 hover:bg-gray-500">
-          save file
+        </button> */}
+        <button className="btn bg-gray-400 hover:bg-gray-500" onClick={closeFile}>
+          close file
         </button>
       </header>
 

@@ -187,9 +187,9 @@
 .gantt h2 { font-size: 24px; font-weight: bold; margin-bottom: 12px; }
 .gantt-ligne { display: grid; grid-template-columns: 160px minmax(300px, 1fr); align-items: center; gap: 12px; margin: 12px 0; }
 .gantt-zone { position: relative; height: 28px; background: #eee; border-radius: 4px; overflow: hidden; }
-.gantt-barre { position: absolute; top: 0; height: 100%; background: #427aa8; border-radius: 4px; }
+.gantt-barre { position: absolute; top: 0; height: 100%; background: #5a5e98; border-radius: 4px; }
 .gantt-barre.critique { background: #b85c5c; }
 .gantt-entete { margin-bottom: 0; font-weight: bold; }
 .gantt-echelle { display: grid; grid-template-columns: repeat(var(--nb-jours), minmax(0, 1fr)); }
 .gantt-echelle span { text-align: center; font-size: 12px; border-left: 1px solid #ccc; }
-.gantt-ligne small { display: block; font-size: 12px; color: #666; }
+.gantt-ligne small { display: block; font-size: 12px; color: #1a976d; }

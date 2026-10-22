@@ -9,7 +9,7 @@ export default function GrapheScreen({grapheType,fileInfo}) {
                 
                 return <GanttGraphe fileInfo={fileInfo}></GanttGraphe>
             
-            case "mpm":
+            case "graphe":
                 return <></>
             case "mpm" :
                 return <></>

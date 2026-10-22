@@ -1,4 +1,3 @@
-
 export default function GrapheScreen({ fileInfo }) {
   const { nums, descriptions, durees, siTot, siTard, predecesseurs } = fileInfo;
   const dureeTotale = Math.max(...nums.map((id, i) => siTot[id] + durees[i]));

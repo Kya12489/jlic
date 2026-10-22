@@ -41,7 +41,7 @@ export default function GanttGraphe({ fileInfo }) {
 
       <p>
         <span style={{ color: "#b85c5c" }}>■</span> Tâches critiques —{" "}
-        <span style={{ color: "#427aa8" }}>■</span> Tâches non critiques
+        <span style={{ color: "#5a5e98" }}>■</span> Tâches non critiques
       </p>
     </div>
   );

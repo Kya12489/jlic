@@ -52,9 +52,9 @@ class TaskFile:
                     print(f"Erreur ligne {numero} : tâches précédentes invalides : {repr(columns[3])}")
                     return False
     
-                if not re.fullmatch(r"[a-zA-ZÀ-ÿ ]+", columns[1].strip()):
-                    print(f"Erreur ligne {numero} : description invalide.")
-                    return False
+                # if not re.fullmatch(r"[a-zA-ZÀ-ÿ ]+", columns[1].strip()):
+                #     print(f"Erreur ligne {numero} : description invalide.")
+                #     return False
     
                 if not re.fullmatch(r"\d+(?:[.,]\d+)?", columns[2].strip()):
                     print(f"Erreur ligne {numero} : durée invalide.")
@@ -143,21 +143,18 @@ class TaskFile:
     def GetNbTask(self):
         return len(self.GetTaskTable()[0])
 
-    def GetArcs(self) :
-
+    def GetArcs(self):
         arcs = []
-        nums,_,poids,predecesseurs = self.GetTaskTable()
-        for i in range(0,self.GetNbTask()) :
-            if predecesseurs[i] == [] :
-                continue
+        nums, _, durees, predecesseurs = self.GetTaskTable()
+        duree_de = dict(zip(nums, durees))
 
-            for p in predecesseurs[i] :
-                arcs.append([nums[i],p,poids[p-1]])
+        for num, preds in zip(nums, predecesseurs):
+            for p in preds:
+                arcs.append([num, p, duree_de[p]])
 
-        for contrainte in self._contrainte :
-            arcs.append(contrainte)
+        arcs.extend(self._contrainte)
         return arcs
-
+    
     def GetReversedArcs(self) :
         arcs = self.GetArcs()
         reversedArcs = []

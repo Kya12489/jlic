@@ -42,20 +42,22 @@ function App() {
     localStorage.setItem("activeGraphe", JSON.stringify(graphe));
   }
 
-    
   async function handleSubmit(file, addEndedTask) {
     if (!file) {
-      console.error("Aucun fichier sélectionné");
+      alert("Sélectionne un fichier TXT !");
       return;
     }
 
     try {
+      console.log("Envoi du fichier :", file.name);
+
       const graphe = await GetFileInfo(file, addEndedTask);
 
-      console.log(graphe);
+      console.log("Réponse du serveur :", graphe);
       setGraphe(graphe);
     } catch (error) {
-      console.error("Erreur :", error.message);
+      console.error("Erreur :", error);
+      alert("Erreur lors de l'envoi : " + error.message);
     }
   }
 

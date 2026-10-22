@@ -1,5 +1,5 @@
 
-export default function GrapheScreen({ fileInfo }) {
+export default function GanttGraphe({ fileInfo }) {
   const { nums, descriptions, durees, siTot, siTard, predecesseurs } = fileInfo;
   const dureeTotale = Math.max(...nums.map((id, i) => siTot[id] + durees[i]));
 
@@ -41,7 +41,7 @@ export default function GrapheScreen({ fileInfo }) {
 
       <p>
         <span style={{ color: "#b85c5c" }}>■</span> Tâches critiques —{" "}
-        <span style={{ color: "#427aa8;" }}>■</span> Tâches non critiques
+        <span style={{ color: "#427aa8" }}>■</span> Tâches non critiques
       </p>
     </div>
   );

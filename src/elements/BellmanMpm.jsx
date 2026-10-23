@@ -1,4 +1,4 @@
-import { ReactFlow, Background, Controls } from "@xyflow/react";
+import { ReactFlow, Background, Controls, Position } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import dagre from "@dagrejs/dagre";
 
@@ -14,6 +14,8 @@ export default function BellmanFordGraphe({ fileInfo }) {
     data: {
       label: `${id} - ${descriptions[i]} \ntôt: ${siTot[id]} | tard: ${siTard[id]}`,
     },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     style: {
       width: 150,
       whiteSpace: "pre-line",
@@ -34,7 +36,7 @@ export default function BellmanFordGraphe({ fileInfo }) {
         target: String(id),
         type: "straight",
         label: String(durees[nums.indexOf(p)]),
-
+        
         style: { stroke: critique ? "Red" : "Black", strokeWidth: critique ? 3 : 1 },
       });
     });

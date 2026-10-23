@@ -1,6 +1,25 @@
 
 export default function GanttGraphe({ fileInfo }) {
+  const lastIndex = fileInfo["nums"].length-1
+  const lastId = fileInfo["nums"][lastIndex]
+
+  const firstId = fileInfo["nums"][0]
+  if (fileInfo["durees"][lastIndex] === 0) {
+    fileInfo["nums"] = fileInfo["nums"].slice(0,-1)
+    fileInfo["descriptions"] = fileInfo["descriptions"].slice(0,-1)
+    fileInfo["durees"] = fileInfo["durees"].slice(0,-1)
+    fileInfo["predecesseurs"] = fileInfo["predecesseurs"].slice(0,-1)
+  }
+  
+  if (fileInfo["durees"][0] === 0) {
+    fileInfo["nums"] = fileInfo["nums"].slice(1)
+    fileInfo["descriptions"] = fileInfo["descriptions"].slice(1)
+    fileInfo["durees"] = fileInfo["durees"].slice(1)
+    fileInfo["predecesseurs"] = fileInfo["predecesseurs"].slice(1)
+  }
+
   const { nums, descriptions, durees, siTot, siTard, predecesseurs } = fileInfo;
+  
   const dureeTotale = Math.max(...nums.map((id, i) => siTot[id] + durees[i]));
 
   return (

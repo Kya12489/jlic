@@ -3,8 +3,9 @@ import { useState } from 'react'
 import './App.css'
 import GrapheScreen from './elements/GrapheScreen'
 import FileForm from './elements/openfileForm'
+import { Loading } from './elements/Loading'
 
-async function GetFileInfo(file, addEndedTask) {
+async function GetFileInfo(file, addEndedTask, setLoading) {
   if (!file) {
     throw new Error("Aucun fichier sélectionné");
   }
@@ -12,6 +13,7 @@ async function GetFileInfo(file, addEndedTask) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   formData.append("addEndedTask", String(addEndedTask));
+  setLoading(true)
 
   const response = await fetch("https://jlic.onrender.com/fileinfo", {
     method: "POST",
@@ -27,12 +29,14 @@ async function GetFileInfo(file, addEndedTask) {
         : `Erreur HTTP ${response.status}`
     );
   }
-
+  setLoading(false)
   return data.content;
 }
 
 function App() {
   const [grapheType,setGrapheType] = useState("gantt")
+  const [loading, setLoading] = useState(false)
+  
 
   const [activeGraphe, setActiveGrapheState] = useState(() => {
     const savedGraphe = localStorage.getItem("activeGraphe");
@@ -53,7 +57,7 @@ function App() {
     try {
       console.log("Envoi du fichier :", file.name);
 
-      const graphe = await GetFileInfo(file, addEndedTask);
+      const graphe = await GetFileInfo(file, addEndedTask,setLoading);
 
       console.log("Réponse du serveur :", graphe);
       setGraphe(graphe);
@@ -85,7 +89,9 @@ function App() {
       </header>
 
       <div className="flex justify-center items-center h-screen ">
-        {activeGraphe === null ? (
+        {loading ? (
+          <Loading size={50} />
+        ) : activeGraphe === null ? (
           <FileForm onSubmit={handleSubmit} />
         ) : (
           <GrapheScreen grapheType={grapheType} fileInfo={activeGraphe} />

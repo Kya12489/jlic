@@ -1,47 +1,34 @@
 # jlic
 
-Format des fichier txt : 
-pour le format des taches : 
+JLIC est un projet réalisé en license proffesionel a l'université d'angers.
+Il s'agit d'un projet fait en equipe de 4 ayant pour but d'analyser un projet avec l'algorithme de [Bellman](https://fr.wikipedia.org/wiki/Algorithme_de_Bellman-Ford).
 
-numTache;Description;Durée;Predecesseur1,PredecesseurN
+Le client est en react.js ( un framework de js ) afin de decouvrir son fonctionnement et de découvrir un nouveau framework.
+Le client utilise le package [reactflow](https://reactflow.dev/) afin d'afficher le graphe MPM
+Le client est mis en ligne avec [netlify](https://app.netlify.com/)
 
-Format dans la classe TaskFile : 
-[
-    [], num 
-    [], description
-    [], durée
-    [], predecesseur
-]
+Le serveur est en python et utilise le package [fastAPI](https://fastapi.tiangolo.com/) afin de délivrer les informations au client
+Le serveur est héberger sur [Render](https://render.com) qui est gratuit mais s'etein au bout de 15 minute et redemarre automatiquement.
 
-exemple dans un for (a tester dans le fichier main.py) : 
+Vous pouvez allez voir la documentation de l'api afin de voir ce qu'elle renvoi et les different route de l'api : https://jlic.onrender.com/docs
 
+Le projet est finit et mis en ligne.
+Lien du client : https://jlic.netlify.app/
+Lien du serveur : https://jlic.onrender.com/
 
-#mis à jour le 14/10/2026
+Afin que le programme fonctionne correctement il faut envoyer un fichier.txt dans le format suivant : 
+Sommet  : numTache;descriptionTache;duréeTache;predecesseurTache
+Contrainte : c;origin;predecesseur;poids
 
-from classes.taskFile import TaskFile
-from library import ToolKit
-
-try:
-    testFile = TaskFile("./formatTache.txt")
-    testFile.AddTaskInTable(
-        num=testFile.GetNbTask()+1,
-        description="FIN",
-        predecesseur=str(testFile.GetTaskTable()[0][-1])
-    )
-    nums, desc, durees, preds = testFile.GetTaskTable()
-    siTot = ToolKit.LongestBellman(nums, durees, preds)
-    siTard = ToolKit.LatestStart(nums,durees,preds,siTot)
-    for i in range(testFile.GetNbTask()):
-        
-        print(f"num = {nums[i]}")
-        print(f"description = {desc[i]}")
-        print(f"durée = {durees[i]}")
-        print(f"prédécesseur = {preds[i]}")
-
-        print("date au plus tot = ", siTot[i])
-        print("date au plus tard =", siTard[i])
-        print("retard autoriser = ", siTard[i] - siTot[i])
-        print("____________________________________________________________________________")
-
-except ValueError as e:
-    print(e)
+exemple de fichier : 
+1;Murs;7;/
+2;Charpente;3;1
+3;Toiture;1;2
+4;Plomberie;8;1
+5;Electricité;2;3,4
+6;Fenêtres;1;3,4
+7;Jardin;1;3,4
+8;Peintures;3;6
+9;Cuisine;2;8
+10;Installation;1;5,7,9
+c;3;6;-3

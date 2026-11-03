@@ -1,5 +1,6 @@
 
 export default function GanttGraphe({ fileInfo }) {
+  fileInfo = { ...fileInfo };
   const lastIndex = fileInfo["nums"].length-1
   const lastId = fileInfo["nums"][lastIndex]
 

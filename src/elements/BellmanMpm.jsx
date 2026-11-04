@@ -1,9 +1,10 @@
-import { ReactFlow, Background, Controls, Position } from "@xyflow/react";
+import { ReactFlow, Background, Controls, Position, MarkerType } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import dagre from "@dagrejs/dagre";
 
 export default function BellmanFordGraphe({ fileInfo }) {
   const { nums, descriptions, durees, siTot, siTard, predecesseurs } = fileInfo;
+  const contraintes = fileInfo.contraintes || []; 
 
   const estCritique = (id) => siTard[id] === siTot[id];
 
@@ -26,21 +27,30 @@ export default function BellmanFordGraphe({ fileInfo }) {
 
   
   const edges = [];
-  nums.forEach((id, i) => {
-    predecesseurs[i].forEach((p) => {
-      const critique =
-        estCritique(p) && estCritique(id) && siTot[p] + durees[nums.indexOf(p)] === siTot[id];
-      edges.push({
-        id: `${p}-${id}`,
-        source: String(p),
-        target: String(id),
-        type: "straight",
-        label: String(durees[nums.indexOf(p)]),
-        
-        style: { stroke: critique ? "Red" : "Black", strokeWidth: critique ? 3 : 1 },
-      });
+  const ajouterArc = (p, id, poids) => {
+    const critique = estCritique(p) && estCritique(id) && siTot[p] + poids === siTot[id];
+    edges.push({
+      id: `${edges.length}-${p}-${id}`,
+      source: String(p),
+      target: String(id),
+      type: "straight",
+      label: String(poids),
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: critique ? "Red" : "Black",
+        width: 20,
+        height: 20,
+        markerUnits: "userSpaceOnUse",
+      },
+      style: { stroke: critique ? "Red" : "Black", strokeWidth: critique ? 3 : 1 },
     });
+  };
+
+  nums.forEach((id, i) => {
+    predecesseurs[i].forEach((p) => ajouterArc(p, id, durees[nums.indexOf(p)]));
   });
+  
+  contraintes.forEach(([i, j, d]) => ajouterArc(j, i, d));
 
   //placement auto
   const g = new dagre.graphlib.Graph();
@@ -55,7 +65,7 @@ export default function BellmanFordGraphe({ fileInfo }) {
 
   return (
     <div className="h-[80vh] w-full">
-      <ReactFlow nodes={nodes} edges={edges} fitView nodesConnectable={false}>
+      <ReactFlow nodes={nodes} edges={edges} fitView nodesConnectable={false} nodesDraggable>
       </ReactFlow>
     </div>
   );

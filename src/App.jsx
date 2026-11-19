@@ -93,7 +93,9 @@ function App() {
           activeGraphe === null ? "items-center h-screen" : "items-start min-h-screen"
         }`}
       >
-        {activeGraphe === null ? (
+        {loading ? (
+          <Loading size={50} />
+        ) : activeGraphe === null ? (
           <FileForm onSubmit={handleSubmit} />
         ) : (
           <GrapheScreen grapheType={grapheType} fileInfo={activeGraphe} />

@@ -88,10 +88,12 @@ function App() {
                 </section>
       </header>
 
-      <div className="flex justify-center items-center h-screen ">
-        {loading ? (
-          <Loading size={50} />
-        ) : activeGraphe === null ? (
+     <div
+        className={`flex justify-center ${
+          activeGraphe === null ? "items-center h-screen" : "items-start min-h-screen"
+        }`}
+      >
+        {activeGraphe === null ? (
           <FileForm onSubmit={handleSubmit} />
         ) : (
           <GrapheScreen grapheType={grapheType} fileInfo={activeGraphe} />

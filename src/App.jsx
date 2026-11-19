@@ -83,7 +83,6 @@ function App() {
         <section className="flex gap-2">
                     <p>vue : </p>
                     <button className="btn bg-gray-400 hover:bg-gray-500" onClick={()=>setGrapheType("gantt")}>Gantt</button>
-                    <button className="btn bg-gray-400 hover:bg-gray-500" onClick={()=>setGrapheType("graphe")}>Graphe</button>
                     <button className="btn bg-gray-400 hover:bg-gray-500" onClick={()=>setGrapheType("mpm")}>MPM</button>
                 </section>
       </header>

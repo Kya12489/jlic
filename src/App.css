@@ -1,3 +1,10 @@
+.navbar {            /* ou header, nav, selon ton code */
+  position: sticky;  /* ou fixed, comme tu l'as déjà */
+  top: 0;
+  z-index: 100;
+  background: white; /* un fond opaque, sinon le Gantt se voit en transparence */
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;

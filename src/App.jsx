@@ -84,7 +84,11 @@ function App() {
                 </section>
       </header>
 
-      <div className="flex justify-center items-center h-screen ">
+     <div
+        className={`flex justify-center ${
+          activeGraphe === null ? "items-center h-screen" : "items-start min-h-screen"
+        }`}
+      >
         {activeGraphe === null ? (
           <FileForm onSubmit={handleSubmit} />
         ) : (
